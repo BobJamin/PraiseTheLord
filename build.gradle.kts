@@ -15,7 +15,7 @@ repositories {
 intellij {
     version.set("2021.3.3")
     type.set("IC") // Target IDE Platform
-    pluginName.set("PraiseTheLord")
+    pluginName.set("Kratos")
     plugins.set(listOf(/* Plugin Dependencies */))
 }
 

@@ -1,1 +1,1 @@
-rootProject.name = "PraiseTheLord"
+rootProject.name = "KratosPlugin"

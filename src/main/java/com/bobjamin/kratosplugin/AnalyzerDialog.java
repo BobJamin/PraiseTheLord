@@ -1,4 +1,4 @@
-package be.hepl.praisethelord;
+package com.bobjamin.kratosplugin;
 
 import com.intellij.openapi.ui.DialogWrapper;
 
@@ -12,7 +12,7 @@ public class AnalyzerDialog extends DialogWrapper {
     public AnalyzerDialog(String mainText) {
         super(true); // use current window as parent
         this.mainText = mainText;
-        setTitle("Praise the lord");
+        setTitle("Kratos");
         init();
     }
 
