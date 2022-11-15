@@ -2,6 +2,10 @@ package com.bobjamin.kratosplugin.models;
 
 public class CodeReport {
 
+    public String getFilename() {
+        return filename;
+    }
+
     private final String filename;
     private double wmc;
     private double tcc;
