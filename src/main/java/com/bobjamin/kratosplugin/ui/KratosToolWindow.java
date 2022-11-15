@@ -2,6 +2,7 @@ package com.bobjamin.kratosplugin.ui;
 
 import com.bobjamin.kratosplugin.models.CodeReport;
 import com.bobjamin.kratosplugin.models.CodeReportListener;
+import com.bobjamin.kratosplugin.models.Metric;
 import com.bobjamin.kratosplugin.services.CodeAnalysisService;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.wm.ToolWindow;
@@ -23,7 +24,9 @@ public class KratosToolWindow implements CodeReportListener {
 
     // Body
     private JPanel body;
-    private JList list1;
+    private JScrollPane metricScrollPane;
+    private JPanel metricsWrapper;
+    private JPanel metricsContainer;
 
     // Footer
     private JPanel footer;
@@ -33,6 +36,7 @@ public class KratosToolWindow implements CodeReportListener {
     public KratosToolWindow(ToolWindow toolWindow) {
         CodeAnalysisService codeAnalysisService = ApplicationManager.getApplication().getService(CodeAnalysisService.class);
         codeAnalysisService.subscribe(this);
+        initializeMetricContainer();
         configureStyles();
     }
 
@@ -43,6 +47,11 @@ public class KratosToolWindow implements CodeReportListener {
     @Override
     public void update(CodeReport codeReport) {
         filename.setText(codeReport.getFilename());
+        // metricsContainer.removeAll();
+        addMetric(new Metric("Weighted Method Count", codeReport.getWmc()));
+        addMetric(new Metric("Weighted Method Count", codeReport.getWmc()));
+        addMetric(new Metric("Weighted Method Count", codeReport.getWmc()));
+        addMetric(new Metric("Weighted Method Count", codeReport.getWmc()));
         // currentDate.setText(String.format("WMC: %s\nTCC: %s\nATFD: %s", codeReport.getWmc(), codeReport.getTcc(), codeReport.getAtfd()));
     }
 
@@ -54,7 +63,23 @@ public class KratosToolWindow implements CodeReportListener {
         filename.setFont(filename.getFont().deriveFont(filename.getFont().getStyle() | Font.BOLD));
         score.setFont(score.getFont().deriveFont(score.getFont().getStyle() | Font.BOLD));
 
+        // Body
+        // metricsContainer.setBackground(Gray._30);
+        metricsWrapper.setBackground(Color.red);
+        metricsContainer.setBackground(Color.BLUE);
         // Footer
         footer.setBorder(JBUI.Borders.empty(5));
+    }
+
+    private void initializeMetricContainer() {
+        JPanel metricsContainer = new JPanel();
+        metricsContainer.setLayout(new BoxLayout(metricsContainer, BoxLayout.Y_AXIS));
+        metricsWrapper.add(metricsContainer, BorderLayout.CENTER);
+        this.metricsContainer = metricsContainer;
+        addMetric(new Metric("Tight Class Cohesion", 200));
+    }
+
+    private void addMetric(Metric metric) {
+        metricsContainer.add(new KratosToolWindowMetric(metric.getMetricName(), metric.getMetricValue()).getContent());
     }
 }
