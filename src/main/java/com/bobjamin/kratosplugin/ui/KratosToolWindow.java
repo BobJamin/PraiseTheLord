@@ -36,8 +36,8 @@ public class KratosToolWindow implements CodeReportListener {
     public KratosToolWindow(ToolWindow toolWindow) {
         CodeAnalysisService codeAnalysisService = ApplicationManager.getApplication().getService(CodeAnalysisService.class);
         codeAnalysisService.subscribe(this);
-        initializeMetricContainer();
-        configureStyles();
+        setup();
+        style();
     }
 
     public JPanel getContent() {
@@ -47,15 +47,29 @@ public class KratosToolWindow implements CodeReportListener {
     @Override
     public void update(CodeReport codeReport) {
         filename.setText(codeReport.getFilename());
-        // metricsContainer.removeAll();
-        addMetric(new Metric("Weighted Method Count", codeReport.getWmc()));
-        addMetric(new Metric("Weighted Method Count", codeReport.getWmc()));
-        addMetric(new Metric("Weighted Method Count", codeReport.getWmc()));
-        addMetric(new Metric("Weighted Method Count", codeReport.getWmc()));
-        // currentDate.setText(String.format("WMC: %s\nTCC: %s\nATFD: %s", codeReport.getWmc(), codeReport.getTcc(), codeReport.getAtfd()));
+        score.setText(String.valueOf(codeReport.getScore()));
+        score.setVisible(true);
+        metricsContainer.removeAll();
+        for (Metric m : codeReport.getMetrics()) {
+            addMetric(m);
+        }
     }
 
-    private void configureStyles() {
+    private void setup() {
+        // Setup metrics container
+        JPanel metricsContainer = new JPanel();
+        metricsContainer.setLayout(new BoxLayout(metricsContainer, BoxLayout.Y_AXIS));
+        metricsContainer.setBorder(BorderFactory.createEmptyBorder());
+        metricsWrapper.add(metricsContainer, BorderLayout.NORTH);
+        this.metricsContainer = metricsContainer;
+
+        // Setup default values
+        this.filename.setText("No Analysis");
+        this.score.setVisible(false);
+        this.footer.setVisible(false);
+    }
+
+    private void style() {
         // Header
         content.setBorder(JBUI.Borders.customLineTop(Gray._53));
         header.setBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, Color.GREEN));
@@ -64,19 +78,13 @@ public class KratosToolWindow implements CodeReportListener {
         score.setFont(score.getFont().deriveFont(score.getFont().getStyle() | Font.BOLD));
 
         // Body
-        // metricsContainer.setBackground(Gray._30);
-        metricsWrapper.setBackground(Color.red);
-        metricsContainer.setBackground(Color.BLUE);
+        body.setBorder(BorderFactory.createEmptyBorder());
+        metricScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        metricsContainer.setBorder(BorderFactory.createEmptyBorder());
+        metricsContainer.setBackground(Gray._43);
+
         // Footer
         footer.setBorder(JBUI.Borders.empty(5));
-    }
-
-    private void initializeMetricContainer() {
-        JPanel metricsContainer = new JPanel();
-        metricsContainer.setLayout(new BoxLayout(metricsContainer, BoxLayout.Y_AXIS));
-        metricsWrapper.add(metricsContainer, BorderLayout.CENTER);
-        this.metricsContainer = metricsContainer;
-        addMetric(new Metric("Tight Class Cohesion", 200));
     }
 
     private void addMetric(Metric metric) {
