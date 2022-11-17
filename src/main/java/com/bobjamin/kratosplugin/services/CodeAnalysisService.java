@@ -39,9 +39,9 @@ public class CodeAnalysisService {
                 new Metric(WMC_METRIC_NAME, 18),
                 new Metric(TCC_METRIC_NAME, 0.1),
                 new Metric(ATFD_METRIC_NAME, 8),
-                new Metric("Total Score", 89));
+                new Metric("Total Score", 10));
 
-        this.codeReport = new CodeReport(filename, metrics, 89);
+        this.codeReport = new CodeReport(filename, metrics, 10);
         notifyListeners();
     }
 
