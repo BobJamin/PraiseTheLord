@@ -19,31 +19,28 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
-    <extensions defaultExtensionNs="com.intellij">
-
-    </extensions>
-
     <actions>
         <action
-                id="StackOverflow.AskQuestion.ToolsMenu"
+                id="Kratos.Analysis.EdtitorPopup"
+                icon="AllIcons.General.TodoQuestion"
                 class="com.bobjamin.kratosplugin.KratosPlugin"
-                text="Kratos1"
-                description="Ask a Question on Stack Overflow">
-            <add-to-group group-id="ToolsMenu" anchor="last"/>
+                text="Kratos"
+                description="Launch Kratos Analysis">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
         <action
-                id="StackOverflow.Search.Editor"
+                id="Kratos.Analysis.ProjectView"
+                icon="AllIcons.General.TodoQuestion"
                 class="com.bobjamin.kratosplugin.KratosPlugin"
-                text="Kratos2"
-                description="Search on Stack Overflow">
+                text="Kratos"
+                description="Launch Kratos Analysis">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
         </action>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.bobjamin.kratosplugin.services.CodeAnalysisService"/>
-        <toolWindow id="Kratos" secondary="true" icon="AllIcons.General.Modified" anchor="right" factoryClass="com.bobjamin.kratosplugin.ui.KratosToolWindowFactory"/>
+        <toolWindow id="Kratos" secondary="true" icon="AllIcons.General.TodoQuestion" anchor="right" factoryClass="com.bobjamin.kratosplugin.ui.KratosToolWindowFactory"/>
     </extensions>
+
 </idea-plugin>

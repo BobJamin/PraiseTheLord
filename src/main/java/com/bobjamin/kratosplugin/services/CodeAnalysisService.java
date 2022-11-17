@@ -7,6 +7,7 @@ import com.intellij.lang.Language;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.antlr.v4.runtime.*;
 
 import static com.bobjamin.kratosplugin.utils.Constants.*;
 

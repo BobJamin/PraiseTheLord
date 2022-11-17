@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.intellij") version "1.9.0"
 }
 
-group = "be.hepl"
+group = "com.raclu"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -16,7 +16,7 @@ intellij {
     version.set("2021.3.3")
     type.set("IC") // Target IDE Platform
     pluginName.set("Kratos")
-    plugins.set(listOf(/* Plugin Dependencies */))
+    plugins.set(listOf())
 }
 
 tasks {

@@ -72,7 +72,7 @@ public class KratosToolWindow implements CodeReportListener {
     private void style() {
         // Header
         content.setBorder(JBUI.Borders.customLineTop(Gray._53));
-        header.setBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, Color.GREEN));
+        header.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, new Color(73,156,84)));
         headerWrapper.setBorder(JBUI.Borders.empty(5));
         filename.setFont(filename.getFont().deriveFont(filename.getFont().getStyle() | Font.BOLD));
         score.setFont(score.getFont().deriveFont(score.getFont().getStyle() | Font.BOLD));

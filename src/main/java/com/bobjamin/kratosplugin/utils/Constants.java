@@ -7,5 +7,4 @@ public class Constants {
     public static final String TCC_METRIC_NAME = "Tight Class Cohesion";
     public static final String ATFD_METRIC_NAME = "Access To Foreign Data";
 
-
 }
