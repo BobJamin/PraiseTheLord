@@ -1,5 +1,7 @@
 package com.bobjamin.kratosplugin.services;
 
+import com.bobjamin.kratosplugin.antlr.JavaLexer;
+import com.bobjamin.kratosplugin.antlr.JavaParser;
 import com.bobjamin.kratosplugin.models.CodeReport;
 import com.bobjamin.kratosplugin.models.CodeReportListener;
 import com.bobjamin.kratosplugin.models.Metric;
@@ -8,7 +10,8 @@ import com.intellij.lang.Language;
 import java.util.ArrayList;
 import java.util.List;
 import org.antlr.v4.runtime.*;
-
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import static com.bobjamin.kratosplugin.utils.Constants.*;
 
 public class CodeAnalysisService {
@@ -26,6 +29,12 @@ public class CodeAnalysisService {
 
     // TODO: Allow to launch code analysis on an arborescence;
     public void run(String filename, Language language, String text) {
+        JavaLexer lexer = new JavaLexer(CharStreams.fromString(text));
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        JavaParser parser = new JavaParser(tokens);
+        ParseTree tree = parser.compilationUnit();
+        ParseTreeWalker walker = new ParseTreeWalker();
+
         List<Metric> metrics = List.of(
                 new Metric(WMC_METRIC_NAME, 18),
                 new Metric(TCC_METRIC_NAME, 0.1),

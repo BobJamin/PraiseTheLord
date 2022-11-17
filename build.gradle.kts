@@ -19,6 +19,14 @@ intellij {
     plugins.set(listOf())
 }
 
+configurations {
+    implementation
+}
+
+dependencies {
+    implementation("org.antlr:antlr4-runtime:4.11.1")
+}
+
 tasks {
     // Set the JVM compatibility versions
     withType<JavaCompile> {
