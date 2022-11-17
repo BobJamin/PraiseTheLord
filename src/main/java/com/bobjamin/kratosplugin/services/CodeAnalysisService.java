@@ -1,7 +1,7 @@
 package com.bobjamin.kratosplugin.services;
 
-import com.bobjamin.kratosplugin.antlr.JavaLexer;
-import com.bobjamin.kratosplugin.antlr.JavaParser;
+import com.bobjamin.kratosplugin.antlr.java.JavaLexer;
+import com.bobjamin.kratosplugin.antlr.java.JavaParser;
 import com.bobjamin.kratosplugin.models.CodeReport;
 import com.bobjamin.kratosplugin.models.CodeReportListener;
 import com.bobjamin.kratosplugin.models.Metric;
@@ -40,6 +40,7 @@ public class CodeAnalysisService {
                 new Metric(TCC_METRIC_NAME, 0.1),
                 new Metric(ATFD_METRIC_NAME, 8),
                 new Metric("Total Score", 89));
+
         this.codeReport = new CodeReport(filename, metrics, 89);
         notifyListeners();
     }

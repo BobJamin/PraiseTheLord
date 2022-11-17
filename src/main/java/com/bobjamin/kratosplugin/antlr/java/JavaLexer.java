@@ -1,5 +1,5 @@
 // Generated from C:/Workspace/java/PraiseTheLord/src/main/resources/antlr\JavaLexer.g4 by ANTLR 4.10.1
-package com.bobjamin.kratosplugin.antlr;
+package com.bobjamin.kratosplugin.antlr.java;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
