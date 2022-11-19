@@ -9,7 +9,7 @@ public class ColorUtil {
     private static final float MAX_HUE = 120;
 
     public static Color generateScoreColor(double score) {
-        int hue = (int)Math.min(score, MAX_HUE);
+        int hue = score > 0 ? (int)Math.min(score, MAX_HUE) : 0;
         return getColorFromHSL(hue, SATURATION, BRIGHTNESS);
     }
 
