@@ -1,5 +1,7 @@
 package com.bobjamin.kratosplugin.services;
 
+import com.bobjamin.kratosplugin.antlr.AnalyzedLanguage;
+import com.bobjamin.kratosplugin.antlr.AnalyzerAbstractFactory;
 import com.bobjamin.kratosplugin.antlr.java.JavaLexer;
 import com.bobjamin.kratosplugin.antlr.java.JavaParser;
 import com.bobjamin.kratosplugin.models.CodeReport;
@@ -29,10 +31,20 @@ public class CodeAnalysisService {
 
     // TODO: Allow to launch code analysis on an arborescence;
     public void run(String filename, Language language, String text) {
-        JavaLexer lexer = new JavaLexer(CharStreams.fromString(text));
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        JavaParser parser = new JavaParser(tokens);
-        ParseTree tree = parser.compilationUnit();
+        AnalyzedLanguage analyzedLanguage = AnalyzedLanguage.fromName(language.getDisplayName());
+        if(analyzedLanguage == null) {
+            for(CodeReportListener listener : listeners) {
+                listener.displayError("Language not supported: " + language.getDisplayName());
+            }
+            return;
+        }
+
+        AnalyzerAbstractFactory factory = analyzedLanguage.getAnalyzerFactory();
+        Lexer lexer = factory.createLexer(CharStreams.fromString(text));
+        TokenStream tokens = new CommonTokenStream(lexer);
+        Parser parser = new JavaParser(tokens);
+
+        //ParseTree tree = parser.compilationUnit();
         ParseTreeWalker walker = new ParseTreeWalker();
 
         List<Metric> metrics = List.of(

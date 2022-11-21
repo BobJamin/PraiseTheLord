@@ -1,14 +1,21 @@
 package com.bobjamin.kratosplugin.ui;
 
+import com.bobjamin.kratosplugin.AnalyzerDialog;
+import com.bobjamin.kratosplugin.ErrorDialog;
 import com.bobjamin.kratosplugin.models.CodeReport;
 import com.bobjamin.kratosplugin.models.CodeReportListener;
 import com.bobjamin.kratosplugin.models.Metric;
 import com.bobjamin.kratosplugin.services.CodeAnalysisService;
 import com.bobjamin.kratosplugin.utils.ColorUtil;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.ui.popup.Balloon;
+import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.Gray;
+import com.intellij.ui.JBColor;
 import com.intellij.util.ui.JBUI;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,6 +50,15 @@ public class KratosToolWindow implements CodeReportListener {
 
     public JPanel getContent() {
         return content;
+    }
+
+    @Override
+    public void displayError(String message) {
+        // Display error messagebox
+        ApplicationManager.getApplication().invokeLater(() -> {
+            ErrorDialog dialog = new ErrorDialog(message);
+            dialog.show();
+        });
     }
 
     @Override
