@@ -13,6 +13,7 @@ import com.intellij.lang.Language;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -54,10 +55,15 @@ public class CodeAnalysisService {
         ExpressionsVisitor visitor = factory.createVisitor(parseTree, walker);
 
         Collection<String> classes = visitor.getClasses();
-        String firstClass = classes.iterator().next();
-        double atfd = visitor.getAtfd(firstClass);
-        double tcc = visitor.getTcc(firstClass);
-        double wmc = visitor.getWmc(firstClass);
+        Iterator<String> iterator = classes.iterator();
+        String lastClass = null;
+        while(iterator.hasNext()) {
+            lastClass = iterator.next();
+        }
+
+        double atfd = visitor.getAtfd(lastClass);
+        double tcc = visitor.getTcc(lastClass);
+        double wmc = visitor.getWmc(lastClass);
 
         List<Metric> metrics = List.of(
                 new Metric(WMC_METRIC_NAME, wmc),

@@ -5,16 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c424b98-d3d9-4dde-82ae-be8b7c184077" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/AnalyzerFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/CustomJavaParserListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/CustomJavaParserListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/services/CodeAnalysisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/services/CodeAnalysisService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +84,7 @@
       <option name="presentableId" value="Default" />
       <updated>1669019567805</updated>
       <workItem from="1669019570017" duration="441000" />
-      <workItem from="1669020043998" duration="10674000" />
+      <workItem from="1669020043998" duration="20007000" />
     </task>
     <servers />
   </component>
@@ -116,6 +109,21 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/CustomJavaParserListener.java</url>
           <line>18</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/CustomJavaParserListener.java</url>
+          <line>83</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/services/CodeAnalysisService.java</url>
+          <line>65</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/CustomJavaParserListener.java</url>
+          <line>28</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
