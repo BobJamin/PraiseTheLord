@@ -34,6 +34,10 @@ public class CustomJavaParserListener extends JavaParserBaseListener implements 
         return classDataMap.keySet();
     }
 
+    private Map<String, ClassData> getClassDataMap() {
+        return classDataMap;
+    }
+
     @Override
     public void enterClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
         String className = ctx.identifier().getText();
@@ -71,7 +75,6 @@ public class CustomJavaParserListener extends JavaParserBaseListener implements 
         attribute.name = fieldName;
         classData.attributesData.put(fieldName, attribute);
 
-        // var fieldName = ctx.identifier().getText();
         attributes++;
     }
 
@@ -93,11 +96,33 @@ public class CustomJavaParserListener extends JavaParserBaseListener implements 
     @Override
     public void enterExpression(JavaParser.ExpressionContext ctx) {
         super.enterExpression(ctx);
+
+        // get variables
+        String attributeName = ctx.start.getText();
+        Attribute attribute = classDataMap.get(getCurrentClass()).attributesData.get(attributeName);
+        if(attribute != null) {
+            attribute.calledFrom.add(currentMethod);
+        }
     }
 
     @Override
     public void enterStatement(JavaParser.StatementContext ctx) {
         super.enterStatement(ctx);
+
+        // get variables
+        if(ctx.getChildCount() > 0) {
+            String statement = ctx.getText();
+            if(statement.contains("=")) {
+                String[] parts = statement.split("=");
+                String variableName = parts[0].trim();
+                String variableValue = parts[1].trim();
+                ClassData classData = classDataMap.get(getCurrentClass());
+                Attribute attribute = classData.attributesData.get(variableName);
+                if(attribute != null) {
+                    attribute.calledFrom.add(currentMethod);
+                }
+            }
+        }
     }
 
     @Override
