@@ -38,6 +38,9 @@
         </action>
     </actions>
 
+    <!-- Add configuration in settings -->
+
+
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.bobjamin.kratosplugin.services.CodeAnalysisService"/>
         <toolWindow id="Kratos" secondary="true" icon="AllIcons.General.TodoQuestion" anchor="right" factoryClass="com.bobjamin.kratosplugin.ui.KratosToolWindowFactory"/>

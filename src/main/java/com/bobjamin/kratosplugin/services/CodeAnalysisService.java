@@ -36,6 +36,24 @@ public class CodeAnalysisService {
         }
     }
 
+    public void run(String[] filenames, Language[] languages, String[] texts) {
+        if (filenames.length != languages.length || filenames.length != texts.length) {
+            pushError("Invalid input");
+            return;
+        }
+
+        codeReports = new ArrayList<>();
+        for (int i = 0; i < filenames.length; i++) {
+            try {
+                ExpressionVisitor visitor = ANTLRVisitorFacade.getExpressionVisitor(languages[i].getDisplayName(), texts[i]);
+                codeReports.add(buildCodeReport(visitor.getClasses().get(0)));
+            } catch (LanguageNotSupportedException ex) {
+                pushError("Language not supported: " + languages[i].getDisplayName());
+            }
+        }
+        notifyListeners();
+    }
+
     private CodeReport buildCodeReport(Class c) {
         return CodeReportBuilder.Create(c).WithWMC().WithTCC().WithATFD().Build();
     }
