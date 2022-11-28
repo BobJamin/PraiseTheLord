@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface CodeReportListener {
     void displayError(String message);
-    void update(CodeReport codeReport);
+    void update(List<CodeReport> codeReports);
 }

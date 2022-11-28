@@ -5,9 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c424b98-d3d9-4dde-82ae-be8b7c184077" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/common/ExpressionVisitor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/exceptions/LanguageNotSupportedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/models/AccessModifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/models/Class.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/models/KratosMetrics.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/models/Method.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/utils/ANTLRVisitorFacade.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/utils/CodeReportBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/utils/MetricCalculator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/utils/Pair.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/AnalyzedLanguage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/common/AnalyzerFactoryGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/AnalyzerAbstractFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/common/AnalyzerAbstractFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/AnalyzerFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/ExpressionsVisitor.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/CustomJavaParserListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/CustomJavaParserListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/JavaAnalyzerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/JavaAnalyzerFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/models/CodeReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/models/CodeReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/models/CodeReportListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/models/CodeReportListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/models/Metric.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/models/Metric.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/services/CodeAnalysisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/services/CodeAnalysisService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +59,12 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="KratosPlugin" type="f1a62948:ProjectNode" />
-                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="KratosPlugin" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
               </path>
             </expand>
             <select />
@@ -48,8 +73,20 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="true" />
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -62,19 +99,25 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2HqjZkSIn3hE9xdcYlPdqmLZuSp" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Benjam/Documents/Programmation/Java/PraiseTheLord&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "C:/Users/Benjam/Documents/Programmation/Java/PraiseTheLord",
+    "nodejs_package_manager_path": "npm"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -85,6 +128,7 @@
       <updated>1669019567805</updated>
       <workItem from="1669019570017" duration="441000" />
       <workItem from="1669020043998" duration="20007000" />
+      <workItem from="1669629362704" duration="4966000" />
     </task>
     <servers />
   </component>
@@ -102,34 +146,24 @@
       </map>
     </option>
   </component>
+  <component name="VgoProject">
+    <integration-enabled>false</integration-enabled>
+    <settings-migrated>true</settings-migrated>
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/CustomJavaParserListener.java</url>
-          <line>18</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/CustomJavaParserListener.java</url>
-          <line>83</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/services/CodeAnalysisService.java</url>
-          <line>65</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/antlr/java/CustomJavaParserListener.java</url>
-          <line>28</line>
-          <option name="timeStamp" value="15" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindow.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
-        <PinnedItemInfo parentTag="com.bobjamin.kratosplugin.antlr.java.JavaParser$ExpressionContext" memberName="start" />
+        <PinnedItemInfo parentTag="com.bobjamin.kratosplugin.antlr.java.JavaParser$IdentifierContext" memberName="children" />
+        <PinnedItemInfo parentTag="com.bobjamin.kratosplugin.antlr.java.JavaParser$IdentifierContext" memberName="start" />
         <PinnedItemInfo parentTag="com.bobjamin.kratosplugin.antlr.java.JavaParser$ExpressionContext" memberName="stop" />
       </pinned-members>
     </pin-to-top-manager>

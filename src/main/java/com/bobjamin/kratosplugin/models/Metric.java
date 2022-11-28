@@ -1,7 +1,6 @@
 package com.bobjamin.kratosplugin.models;
 
 public class Metric {
-
     private String metricName;
     private double metricValue;
 
@@ -17,5 +16,4 @@ public class Metric {
     public double getMetricValue() {
         return metricValue;
     }
-
 }

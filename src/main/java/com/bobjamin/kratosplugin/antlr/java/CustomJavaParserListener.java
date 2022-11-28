@@ -1,215 +1,188 @@
 package com.bobjamin.kratosplugin.antlr.java;
 
-import com.bobjamin.kratosplugin.antlr.ExpressionsVisitor;
-import org.antlr.v4.runtime.RuleContext;
+import com.bobjamin.kratosplugin.antlr.common.*;
+import com.bobjamin.kratosplugin.models.AccessModifier;
+import com.bobjamin.kratosplugin.models.Attribute;
+import com.bobjamin.kratosplugin.models.Class;
+import com.bobjamin.kratosplugin.models.Method;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-// ref: https://www.simpleorientedarchitecture.com/how-to-identify-god-class-using-ndepend/
-public class CustomJavaParserListener extends JavaParserBaseListener implements ExpressionsVisitor {
-    private int methods = 0;
-    private int attributes = 0;
-    private String currentMethod = null;
-    private String currentPubliciy = null;
-    private Stack<String> classStack = new Stack<>();
-    private Map<String, ClassData> classDataMap = new HashMap<>();
-
-    @Override
-    public double getAtfd(String className) {
-        return methods;
-    }
+public class CustomJavaParserListener extends JavaParserBaseListener implements ExpressionVisitor {
+    private final Stack<Class> classStack = new Stack<>();
+    private final List<Class> classes = new ArrayList<>();
+    private Method currentMethod = null;
+    private AccessModifier currentAccessModifier = null;
 
     @Override
-    public double getTcc(String className) {
-        return 0;
-    }
-
-    @Override
-    public double getWmc(String className) {
-        return classDataMap.containsKey(className) ? classDataMap.get(className).getWmc() : 0;
-    }
-
-    @Override
-    public Collection<String> getClasses() {
-        return classDataMap.keySet();
-    }
-
-    private Map<String, ClassData> getClassDataMap() {
-        return classDataMap;
-    }
-
-    @Override
-    public void enterClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
-        String className = ctx.identifier().getText();
-        classStack.push(className);
-
-        ClassData classData = new ClassData();
-        classData.name = className;
-        classDataMap.put(className, classData);
-    }
-
-    public void exitClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
-        classStack.pop();
-    }
-
-    @Override
-    public void enterSwitchLabel(JavaParser.SwitchLabelContext ctx) {
-        super.enterSwitchLabel(ctx);
-        incrementJumps();
-    }
-
-    @Override
-    public void enterCatchClause(JavaParser.CatchClauseContext ctx) {
-        super.enterCatchClause(ctx);
-        incrementJumps();
-    }
-
-    @Override
-    public void enterFinallyBlock(JavaParser.FinallyBlockContext ctx) {
-        super.enterFinallyBlock(ctx);
-        incrementJumps();
-    }
-
-    private void incrementJumps() {
-        ClassData classData = classDataMap.get(getCurrentClass());
-        classData.methodsData.get(currentMethod).jumps++;
+    public List<Class> getClasses() {
+        return classes;
     }
 
     @Override
     public void enterModifier(JavaParser.ModifierContext ctx) {
         super.enterModifier(ctx);
-        String[] publicities = {"public", "private", "protected"};
-        if (Arrays.asList(publicities).contains(ctx.getText())) {
-            currentPubliciy = ctx.getText();
+        if (AccessModifier.contains(ctx.getText().toUpperCase())) {
+            currentAccessModifier = AccessModifier.valueOf(ctx.getText().toUpperCase());
         }
     }
 
     @Override
-    public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
-        super.enterMethodDeclaration(ctx);
-
-        // Dieu que c'est moche -> TODO: Refactor
-        currentMethod = ctx.identifier().getText();
-        ClassData classData = classDataMap.get(getCurrentClass());
-        // is method public
-        Method method = new Method();
-        method.name = currentMethod;
-        method.publicity = currentPubliciy;
-        classData.methodsData.put(currentMethod, method);
-
-        methods++;
+    public void enterClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
+        Class _class = new Class(ctx.identifier().getText());
+        classStack.push(_class);
+        classes.add(_class);
     }
 
     @Override
     public void enterFieldDeclaration(JavaParser.FieldDeclarationContext ctx) {
         super.enterFieldDeclaration(ctx);
-        String fieldName = ctx.variableDeclarators().variableDeclarator(0).variableDeclaratorId().getText();
-        ClassData classData = classDataMap.get(getCurrentClass());
-        Attribute attribute = new Attribute();
-        attribute.name = fieldName;
-        classData.attributesData.put(fieldName, attribute);
-
-        attributes++;
+        Attribute newAttribute = new Attribute(ctx.variableDeclarators().variableDeclarator(0).variableDeclaratorId().getText(), ctx.typeType().getText());
+        getCurrentClass().addAttribute(newAttribute);
     }
 
     @Override
-    public void enterMethodCall(JavaParser.MethodCallContext ctx) {
-        super.enterMethodCall(ctx);
-        if(currentMethod != null) {
-            // 💔🤢🤮
-            RuleContext parent = ctx.getParent();
-            if(parent instanceof JavaParser.ExpressionContext) {
-                String attributeName = ((JavaParser.ExpressionContext) ctx.parent).start.getText();
-                Attribute attribute = classDataMap.get(getCurrentClass()).attributesData.get(attributeName);
-                if(attribute != null)
-                    attribute.calledFrom.add(currentMethod);
-            }
-        }
+    public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
+        super.enterMethodDeclaration(ctx);
+        currentMethod = new Method(ctx.identifier().getText(), currentAccessModifier);
+        getCurrentClass().addMethod(currentMethod);
+    }
+
+
+    @Override
+    public void enterFormalParameter(JavaParser.FormalParameterContext ctx) {
+        super.enterFormalParameter(ctx);
+        Attribute newParameter = new Attribute(ctx.variableDeclaratorId().getText(), ctx.typeType().getText());
+        if(getCurrentMethod() != null)
+            getCurrentMethod().addParameter(newParameter);
+    }
+
+    @Override
+    public void enterLocalVariableDeclaration(JavaParser.LocalVariableDeclarationContext ctx) {
+        super.enterLocalVariableDeclaration(ctx);
+        Attribute newVariable = new Attribute(ctx.variableDeclarators().variableDeclarator(0).variableDeclaratorId().getText(), ctx.typeType().getText());
+        if(getCurrentMethod() != null)
+            getCurrentMethod().addVariable(newVariable);
+    }
+
+
+    @Override
+    public void enterSwitchLabel(JavaParser.SwitchLabelContext ctx) {
+        super.enterSwitchLabel(ctx);
+        if(getCurrentMethod() != null)
+            getCurrentMethod().incrementJumps();
+    }
+
+    @Override
+    public void enterCatchClause(JavaParser.CatchClauseContext ctx) {
+        super.enterCatchClause(ctx);
+        if(getCurrentMethod() != null)
+            getCurrentMethod().incrementJumps();
+    }
+
+    @Override
+    public void enterFinallyBlock(JavaParser.FinallyBlockContext ctx) {
+        super.enterFinallyBlock(ctx);
+        if(getCurrentMethod() != null)
+            getCurrentMethod().incrementJumps();
     }
 
     @Override
     public void enterExpression(JavaParser.ExpressionContext ctx) {
         super.enterExpression(ctx);
-
-        // get variables
-        String attributeName = ctx.start.getText();
-        Attribute attribute = classDataMap.get(getCurrentClass()).attributesData.get(attributeName);
-        if(attribute != null) {
-            attribute.calledFrom.add(currentMethod);
-        }
+        checkForExternalAccess(ctx.getText());
+        checkForAttributeCall(ctx.start.getText());
     }
 
     @Override
     public void enterStatement(JavaParser.StatementContext ctx) {
         super.enterStatement(ctx);
-
         String[] ifKeywords = {"if", "else"};
         if (Arrays.asList(ifKeywords).contains(ctx.start.getText())) {
-            incrementJumps();
+            getCurrentMethod().incrementJumps();
         }
+    }
 
-        // get variables
-        if(ctx.getChildCount() > 0) {
-            String statement = ctx.getText();
-            if(statement.contains("=")) {
-                String[] parts = statement.split("=");
-                String variableName = parts[0].trim();
-                String variableValue = parts[1].trim();
-                ClassData classData = classDataMap.get(getCurrentClass());
-                Attribute attribute = classData.attributesData.get(variableName);
+    @Override
+    public void exitMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
+        super.enterMethodDeclaration(ctx);
+        currentMethod = null;
+    }
 
-                if (attribute != null) {
-                    attribute.calledFrom.add(currentMethod);
-                }
+    @Override
+    public void exitClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
+        classStack.pop();
+    }
+
+    private Class getCurrentClass() {
+        return classStack.peek();
+    }
+
+    private Method getCurrentMethod() {
+        return currentMethod;
+    }
+
+    private void checkForExternalAccess(String expression) {
+        String[] splittedCall = expression.split("[.](?![^\\(\\[]*[\\]\\)])");
+        for(int i = 0; i < splittedCall.length - 1; i++) {
+            if(isExternalAttribute(splittedCall[i]) && accessesToAttribute(splittedCall[i + 1])) {
+                getCurrentClass().addExternalAccess(getExternalType(splittedCall[i]));
             }
         }
     }
 
-    @Override
-    public void enterElementValue(JavaParser.ElementValueContext ctx) {
-        super.enterElementValue(ctx);
+    private boolean accessesToAttribute(String expression){
+        return expression.matches("^(?!.*[(][)]$).*|get.*$");
     }
 
-    @Override
-    public void enterMemberDeclaration(JavaParser.MemberDeclarationContext ctx) {
-        super.enterMemberDeclaration(ctx);
-    }
+    private String getExternalType(String expression) {
+        if(getCurrentMethod() != null){
+            Attribute attribute = getCurrentMethod().getParameter(expression);
+            if(attribute != null)
+                return attribute.getType();
 
-    // Count attribute accesses
-    @Override
-    public void enterPrimary(JavaParser.PrimaryContext ctx) {
-        super.enterPrimary(ctx);
-    }
-
-    private String getCurrentClass() {
-        return classStack.peek();
-    }
-
-    public Collection<ClassData> getClassesData() {
-        return classDataMap.values();
-    }
-
-    private static class Method {
-        private String name;
-        private String publicity;
-        private List<String> parameters;
-        private List<String> localVariables;
-        private List<String> attributes;
-        private List<String> methods;
-        private int jumps = 1;
-    }
-
-    private static class Attribute {
-        private String name;
-        private Set<String> calledFrom = new HashSet<>();
-    }
-
-    private static class ClassData {
-        private String name;
-        private final Map<String, Method> methodsData = new HashMap<>();
-        private final Map<String, Attribute> attributesData = new HashMap<>();
-        private double getWmc() {
-            return methodsData.values().stream().mapToDouble(m -> m.jumps).sum();
+            attribute = getCurrentMethod().getVariable(expression);
+            if(attribute != null)
+                return attribute.getType();
+        }
+        Attribute attribute = getCurrentClass().getAttribute(expression);
+        if(attribute != null)
+            return attribute.getType();
+        else {
+            Pattern pattern = Pattern.compile("^new(.*)[(].*[)]$");
+            Matcher matcher = pattern.matcher(expression);
+            matcher.matches();
+            return matcher.group(1);
         }
     }
+
+    private boolean isExternalAttribute(String expression){
+        if(getCurrentMethod() != null){
+            Attribute attribute = getCurrentMethod().getParameter(expression);
+            if(attribute != null)
+                return !attribute.getType().contentEquals(getCurrentClass().getClassName());
+
+            attribute = getCurrentMethod().getVariable(expression);
+            if(attribute != null)
+                return !attribute.getType().contentEquals(getCurrentClass().getClassName());
+        }
+        Attribute attribute = getCurrentClass().getAttribute(expression);
+        if(attribute != null)
+            return !attribute.getType().contentEquals(getCurrentClass().getClassName());
+        else
+            return expression.matches("^new.*[(].*[)]$");
+    }
+
+    private void checkForAttributeCall(String attributeName) {
+        for(String attributePart : attributeName.split("\\.")) {
+            Attribute attribute = getCurrentClass().getAttribute(attributePart);
+            if (attribute != null && currentMethod != null) {
+                attribute.addCalledFrom(currentMethod.getMethodName());
+                currentMethod.addAttributeAccesses(attributePart);
+            }
+        }
+    }
+
 }

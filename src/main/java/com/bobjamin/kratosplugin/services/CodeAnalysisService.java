@@ -1,29 +1,22 @@
 package com.bobjamin.kratosplugin.services;
 
-import com.bobjamin.kratosplugin.antlr.AnalyzedLanguage;
-import com.bobjamin.kratosplugin.antlr.AnalyzerAbstractFactory;
-import com.bobjamin.kratosplugin.antlr.ExpressionsVisitor;
-import com.bobjamin.kratosplugin.antlr.java.JavaLexer;
-import com.bobjamin.kratosplugin.antlr.java.JavaParser;
-import com.bobjamin.kratosplugin.antlr.java.JavaParserBaseListener;
+import com.bobjamin.kratosplugin.exceptions.LanguageNotSupportedException;
+import com.bobjamin.kratosplugin.models.Class;
+import com.bobjamin.kratosplugin.antlr.common.ExpressionVisitor;
 import com.bobjamin.kratosplugin.models.CodeReport;
 import com.bobjamin.kratosplugin.models.CodeReportListener;
-import com.bobjamin.kratosplugin.models.Metric;
+import com.bobjamin.kratosplugin.utils.ANTLRVisitorFacade;
+import com.bobjamin.kratosplugin.utils.CodeReportBuilder;
 import com.intellij.lang.Language;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import static com.bobjamin.kratosplugin.utils.Constants.*;
+import java.util.stream.Collectors;
 
 public class CodeAnalysisService {
 
     private final List<CodeReportListener> listeners = new ArrayList<>();
-    private CodeReport codeReport;
+    private List<CodeReport> codeReports;
 
     public void subscribe(CodeReportListener listener) {
         listeners.add(listener);
@@ -33,46 +26,18 @@ public class CodeAnalysisService {
         listeners.remove(listener);
     }
 
-    // TODO: Allow to launch code analysis on an arborescence;
     public void run(String filename, Language language, String text) {
-        AnalyzedLanguage analyzedLanguage = AnalyzedLanguage.fromName(language.getDisplayName());
-        if(analyzedLanguage == null) {
+        try {
+            ExpressionVisitor visitor = ANTLRVisitorFacade.getExpressionVisitor(language.getDisplayName(), text);
+            codeReports = visitor.getClasses().stream().map(this::buildCodeReport).collect(Collectors.toList());
+            notifyListeners();
+        } catch (LanguageNotSupportedException ex) {
             pushError("Language not supported: " + language.getDisplayName());
-            return;
         }
+    }
 
-        AnalyzerAbstractFactory factory = analyzedLanguage.getAnalyzerFactory();
-        if(factory == null) {
-            pushError("Classpath corruption");
-            return;
-        }
-
-        Lexer lexer = factory.createLexer(CharStreams.fromString(text));
-        TokenStream tokens = new CommonTokenStream(lexer);
-        ParseTree parseTree = factory.createParseTree(tokens);
-
-        ParseTreeWalker walker = new ParseTreeWalker();
-        ExpressionsVisitor visitor = factory.createVisitor(parseTree, walker);
-
-        Collection<String> classes = visitor.getClasses();
-        Iterator<String> iterator = classes.iterator();
-        String lastClass = null;
-        while(iterator.hasNext()) {
-            lastClass = iterator.next();
-        }
-
-        double atfd = visitor.getAtfd(lastClass);
-        double tcc = visitor.getTcc(lastClass);
-        double wmc = visitor.getWmc(lastClass);
-
-        List<Metric> metrics = List.of(
-                new Metric(WMC_METRIC_NAME, wmc),
-                new Metric(TCC_METRIC_NAME, tcc),
-                new Metric(ATFD_METRIC_NAME, atfd),
-                new Metric("Total Score", 10));
-
-        this.codeReport = new CodeReport(filename, metrics, 10);
-        notifyListeners();
+    private CodeReport buildCodeReport(Class c) {
+        return CodeReportBuilder.Create(c).WithWMC().WithTCC().WithATFD().Build();
     }
 
     private void pushError(String message) {
@@ -83,7 +48,7 @@ public class CodeAnalysisService {
 
     private void notifyListeners(){
         for (CodeReportListener l: listeners) {
-            l.update(codeReport);
+            l.update(codeReports);
         }
     }
 }

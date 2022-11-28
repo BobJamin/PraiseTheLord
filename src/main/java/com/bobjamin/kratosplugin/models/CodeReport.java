@@ -4,18 +4,14 @@ import java.util.List;
 
 public class CodeReport {
 
-    private final String filename;
+    private final String className;
     private final List<Metric> metrics;
     private final double score;
 
-    public CodeReport(String filename, List<Metric> metrics, double score) {
-        this.filename = filename;
+    public CodeReport(String className, List<Metric> metrics, double score) {
+        this.className = className;
         this.metrics = metrics;
         this.score = score;
-    }
-
-    public String getFilename() {
-        return filename;
     }
 
     public List<Metric> getMetrics() {
@@ -26,4 +22,7 @@ public class CodeReport {
         return score;
     }
 
+    public String getClassName() {
+        return className;
+    }
 }

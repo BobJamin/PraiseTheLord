@@ -1,24 +1,21 @@
 package com.bobjamin.kratosplugin.ui;
 
-import com.bobjamin.kratosplugin.AnalyzerDialog;
 import com.bobjamin.kratosplugin.ErrorDialog;
 import com.bobjamin.kratosplugin.models.CodeReport;
 import com.bobjamin.kratosplugin.models.CodeReportListener;
+import com.bobjamin.kratosplugin.models.KratosMetrics;
 import com.bobjamin.kratosplugin.models.Metric;
 import com.bobjamin.kratosplugin.services.CodeAnalysisService;
 import com.bobjamin.kratosplugin.utils.ColorUtil;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.ui.DialogWrapper;
-import com.intellij.openapi.ui.popup.Balloon;
-import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.Gray;
-import com.intellij.ui.JBColor;
 import com.intellij.util.ui.JBUI;
-import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.Map;
 
 public class KratosToolWindow implements CodeReportListener {
 
@@ -62,14 +59,16 @@ public class KratosToolWindow implements CodeReportListener {
     }
 
     @Override
-    public void update(CodeReport codeReport) {
-        filename.setText(codeReport.getFilename());
+    public void update(List<CodeReport> codeReports) {
+        // TODO: handle multiple codeReports
+        CodeReport codeReport = codeReports.get(0);
+        filename.setText(codeReport.getClassName());
         score.setText(String.valueOf(codeReport.getScore()));
         score.setVisible(true);
         header.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, ColorUtil.generateScoreColor(codeReport.getScore())));
         metricsContainer.removeAll();
         for (Metric m : codeReport.getMetrics()) {
-            addMetric(m);
+            addMetric(m.getMetricName(), m.getMetricValue());
         }
     }
 
@@ -105,7 +104,7 @@ public class KratosToolWindow implements CodeReportListener {
         footer.setBorder(JBUI.Borders.empty(5));
     }
 
-    private void addMetric(Metric metric) {
-        metricsContainer.add(new KratosToolWindowMetric(metric.getMetricName(), metric.getMetricValue()).getContent());
+    private void addMetric(String name, double value) {
+        metricsContainer.add(new KratosToolWindowMetric(name, value).getContent());
     }
 }
