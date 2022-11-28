@@ -124,57 +124,6 @@ public class CustomJavaParserListener extends JavaParserBaseListener implements 
         return currentMethod;
     }
 
-    private void checkForExternalAccess(String expression) {
-        String[] splittedCall = expression.split("[.](?![^\\(\\[]*[\\]\\)])");
-        for(int i = 0; i < splittedCall.length - 1; i++) {
-            if(isExternalAttribute(splittedCall[i]) && accessesToAttribute(splittedCall[i + 1])) {
-                getCurrentClass().addExternalAccess(getExternalType(splittedCall[i]));
-            }
-        }
-    }
-
-    private boolean accessesToAttribute(String expression){
-        return expression.matches("^(?!.*[(][)]$).*|get.*$");
-    }
-
-    private String getExternalType(String expression) {
-        if(getCurrentMethod() != null){
-            Attribute attribute = getCurrentMethod().getParameter(expression);
-            if(attribute != null)
-                return attribute.getType();
-
-            attribute = getCurrentMethod().getVariable(expression);
-            if(attribute != null)
-                return attribute.getType();
-        }
-        Attribute attribute = getCurrentClass().getAttribute(expression);
-        if(attribute != null)
-            return attribute.getType();
-        else {
-            Pattern pattern = Pattern.compile("^new(.*)[(].*[)]$");
-            Matcher matcher = pattern.matcher(expression);
-            matcher.matches();
-            return matcher.group(1);
-        }
-    }
-
-    private boolean isExternalAttribute(String expression){
-        if(getCurrentMethod() != null){
-            Attribute attribute = getCurrentMethod().getParameter(expression);
-            if(attribute != null)
-                return !attribute.getType().contentEquals(getCurrentClass().getClassName());
-
-            attribute = getCurrentMethod().getVariable(expression);
-            if(attribute != null)
-                return !attribute.getType().contentEquals(getCurrentClass().getClassName());
-        }
-        Attribute attribute = getCurrentClass().getAttribute(expression);
-        if(attribute != null)
-            return !attribute.getType().contentEquals(getCurrentClass().getClassName());
-        else
-            return expression.matches("^new.*[(].*[)]$");
-    }
-
     private void checkForAttributeCall(String attributeName) {
         for(String attributePart : attributeName.split("\\.")) {
             Attribute attribute = getCurrentClass().getAttribute(attributePart);
@@ -185,4 +134,55 @@ public class CustomJavaParserListener extends JavaParserBaseListener implements 
         }
     }
 
+    private void checkForExternalAccess(String expression) {
+        String[] splittedCall = expression.split("[.](?![^\\(\\[]*[\\]\\)])");
+        for(int i = 0; i < splittedCall.length - 1; i++) {
+            if(isExternalAttribute(splittedCall[i]) && accessesToAttribute(splittedCall[i + 1])) {
+                getCurrentClass().addExternalAccess(getExternalType(splittedCall[i]));
+            }
+        }
+    }
+
+    private boolean isExternalAttribute(String expression) {
+        return Boolean.TRUE.equals(this.findFirst(
+                Optional.ofNullable(tryFindMember(expression)).map(a -> !a.getType().contentEquals(getCurrentClass().getClassName())).orElse(null),
+                expression.matches("^new.*[(].*[)]$"),
+                false
+        ));
+    }
+
+    private boolean accessesToAttribute(String expression){
+        return expression.matches("^(?!.*[(][)]$).*|get.*$");
+    }
+
+    private String getExternalType(String expression) {
+        return this.findFirst(
+                Optional.ofNullable(tryFindMember(expression)).map(Attribute::getType).orElse(null),
+                tryGetTypeFromInstanciation(expression));
+    }
+
+    private String tryGetTypeFromInstanciation(String expression) {
+        Matcher matcher = Pattern.compile("^new(.*)[(].*[)]$").matcher(expression);
+        if(matcher.matches()) {
+            return matcher.group(1);
+        }
+        return null;
+    }
+
+
+    private Attribute tryFindMember(String memberName) {
+        return this.findFirst(
+                Optional.ofNullable(getCurrentMethod()).map(m -> m.getVariable(memberName)).orElse(null),
+                Optional.ofNullable(getCurrentMethod()).map(m -> m.getParameter(memberName)).orElse(null),
+                Optional.ofNullable(getCurrentClass()).map(m -> m.getAttribute(memberName)).orElse(null));
+    }
+
+    @SafeVarargs
+    private <T> T findFirst(T... params) {
+        for(T p : params) {
+            if(p != null)
+                return p;
+        }
+        return null;
+    }
 }

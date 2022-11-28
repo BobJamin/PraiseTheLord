@@ -5,12 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c424b98-d3d9-4dde-82ae-be8b7c184077" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindowClasses.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindowClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindowMetric.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindowMetric.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +101,7 @@
       <updated>1669019567805</updated>
       <workItem from="1669019570017" duration="441000" />
       <workItem from="1669020043998" duration="20007000" />
-      <workItem from="1669629362704" duration="4966000" />
+      <workItem from="1669629362704" duration="9254000" />
     </task>
     <servers />
   </component>
