@@ -11,9 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import static com.bobjamin.kratosplugin.utils.Constants.MAIN_TAB;
 
 public class KratosToolWindowFactory implements ToolWindowFactory, DumbAware {
-
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        KratosToolWindow myToolWindow = new KratosToolWindow(toolWindow);
+        KratosToolWindow myToolWindow = new KratosToolWindow();
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(myToolWindow.getContent(), MAIN_TAB, false);
         toolWindow.getContentManager().addContent(content);

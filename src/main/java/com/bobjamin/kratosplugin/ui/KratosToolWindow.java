@@ -1,21 +1,20 @@
 package com.bobjamin.kratosplugin.ui;
 
 import com.bobjamin.kratosplugin.ErrorDialog;
+import com.bobjamin.kratosplugin.settings.SettingsDialog;
 import com.bobjamin.kratosplugin.models.CodeReport;
 import com.bobjamin.kratosplugin.models.CodeReportListener;
-import com.bobjamin.kratosplugin.models.KratosMetrics;
 import com.bobjamin.kratosplugin.models.Metric;
 import com.bobjamin.kratosplugin.services.CodeAnalysisService;
+import com.bobjamin.kratosplugin.settings.KratosConfigurator;
 import com.bobjamin.kratosplugin.utils.ColorUtil;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.ui.Gray;
 import com.intellij.util.ui.JBUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 public class KratosToolWindow implements CodeReportListener {
 
@@ -37,16 +36,29 @@ public class KratosToolWindow implements CodeReportListener {
     private JPanel footer;
     private JLabel footerLabel;
     private JProgressBar progressBar;
+    private JButton settingsButton;
+    private JPanel buttonsWrapper;
 
-    public KratosToolWindow(ToolWindow toolWindow) {
+    // Configurator
+    private final KratosConfigurator configurator;
+
+    public KratosToolWindow() {
         CodeAnalysisService codeAnalysisService = ApplicationManager.getApplication().getService(CodeAnalysisService.class);
         codeAnalysisService.subscribe(this);
+        this.configurator = new KratosConfigurator();
         setup();
         style();
     }
 
     public JPanel getContent() {
         return content;
+    }
+
+    public void openSettingsDialog() {
+        ApplicationManager.getApplication().invokeLater(() -> {
+            SettingsDialog settingsDialog = new SettingsDialog(configurator);
+            settingsDialog.show();
+        });
     }
 
     @Override
@@ -95,6 +107,9 @@ public class KratosToolWindow implements CodeReportListener {
     }
 
     private void setup() {
+        // Buttons
+        settingsButton.addActionListener(e -> openSettingsDialog());
+
         // Setup metrics container
         JPanel metricsContainer = new JPanel();
         metricsContainer.setLayout(new BoxLayout(metricsContainer, BoxLayout.Y_AXIS));
