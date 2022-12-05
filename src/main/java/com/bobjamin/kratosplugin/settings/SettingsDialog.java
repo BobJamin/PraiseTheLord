@@ -1,23 +1,20 @@
 package com.bobjamin.kratosplugin.settings;
 
-import com.bobjamin.kratosplugin.settings.KratosConfigurator;
-import com.bobjamin.kratosplugin.settings.SettingsEntry;
 import com.intellij.openapi.ui.DialogWrapper;
 import org.jetbrains.annotations.Nullable;
-
 import javax.swing.*;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public class SettingsDialog extends DialogWrapper {
-    private final KratosConfigurator configurator;
+    private final Settings settings;
     private final SettingsLine[] options;
-    public SettingsDialog(KratosConfigurator configurator) {
-        super(true); // use current window as parent
-        this.configurator = configurator;
-        this.options = Arrays.stream(configurator.getClass().getDeclaredFields()).
+
+    public SettingsDialog(Settings settings) {
+        super(true);
+        this.settings = settings;
+        this.options = Arrays.stream(settings.getFields()).
                 filter(field -> field.isAnnotationPresent(SettingsEntry.class)).
-                map(SettingsLine::new).
+                map((f) -> new SettingsLine(f, this.settings)).
                 toArray(SettingsLine[]::new);
 
         setTitle("Kratos Settings");
@@ -26,7 +23,6 @@ public class SettingsDialog extends DialogWrapper {
 
     @Override
     protected @Nullable JComponent createCenterPanel() {
-        // Parse fields annotated with @SettingsEntry in KratosConfigurator
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -40,10 +36,10 @@ public class SettingsDialog extends DialogWrapper {
     @Override
     protected void doOKAction() {
         for (SettingsLine option : options) {
-            option.apply(configurator);
+            option.apply(settings);
         }
 
-        this.configurator.save();
+        this.settings.update();
         super.doOKAction();
     }
 }

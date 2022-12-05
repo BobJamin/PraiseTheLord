@@ -1,12 +1,11 @@
 package com.bobjamin.kratosplugin.ui;
 
 import com.bobjamin.kratosplugin.ErrorDialog;
-import com.bobjamin.kratosplugin.settings.SettingsDialog;
+import com.bobjamin.kratosplugin.settings.*;
 import com.bobjamin.kratosplugin.models.CodeReport;
 import com.bobjamin.kratosplugin.models.CodeReportListener;
 import com.bobjamin.kratosplugin.models.Metric;
 import com.bobjamin.kratosplugin.services.CodeAnalysisService;
-import com.bobjamin.kratosplugin.settings.KratosConfigurator;
 import com.bobjamin.kratosplugin.utils.ColorUtil;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.ui.Gray;
@@ -17,7 +16,6 @@ import java.awt.*;
 import java.util.List;
 
 public class KratosToolWindow implements CodeReportListener {
-
     private JPanel content;
 
     // Header
@@ -37,15 +35,13 @@ public class KratosToolWindow implements CodeReportListener {
     private JLabel footerLabel;
     private JProgressBar progressBar;
     private JButton settingsButton;
-    private JPanel buttonsWrapper;
 
-    // Configurator
-    private final KratosConfigurator configurator;
+    private final Settings settings;
 
-    public KratosToolWindow() {
+    public KratosToolWindow(Settings settings) {
         CodeAnalysisService codeAnalysisService = ApplicationManager.getApplication().getService(CodeAnalysisService.class);
         codeAnalysisService.subscribe(this);
-        this.configurator = new KratosConfigurator();
+        this.settings = settings;
         setup();
         style();
     }
@@ -56,14 +52,13 @@ public class KratosToolWindow implements CodeReportListener {
 
     public void openSettingsDialog() {
         ApplicationManager.getApplication().invokeLater(() -> {
-            SettingsDialog settingsDialog = new SettingsDialog(configurator);
+            SettingsDialog settingsDialog = new SettingsDialog(this.settings);
             settingsDialog.show();
         });
     }
 
     @Override
     public void displayError(String message) {
-        // Display error messagebox
         ApplicationManager.getApplication().invokeLater(() -> {
             ErrorDialog dialog = new ErrorDialog(message);
             dialog.show();
@@ -85,7 +80,7 @@ public class KratosToolWindow implements CodeReportListener {
         filename.setText("Multiple classes selected");
         score.setText("");
         score.setVisible(false);
-        // TODO: Set color
+
         metricsWrapper.remove(this.metricsContainer);
         metricsWrapper.add(this.metricsContainer, BorderLayout.CENTER);
         metricsContainer.removeAll();
@@ -128,20 +123,27 @@ public class KratosToolWindow implements CodeReportListener {
     }
 
     private void style() {
-        // Header
+        styleHeader();
+        styleBody();
+        styleFooter();
+    }
+
+    private void styleHeader() {
         content.setBorder(JBUI.Borders.customLineTop(Gray._53));
         header.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0,  ColorUtil.generateScoreColor(120)));
         headerWrapper.setBorder(JBUI.Borders.empty(5));
         filename.setFont(filename.getFont().deriveFont(filename.getFont().getStyle() | Font.BOLD));
         score.setFont(score.getFont().deriveFont(score.getFont().getStyle() | Font.BOLD));
+    }
 
-        // Body
+    private void styleBody() {
         body.setBorder(BorderFactory.createEmptyBorder());
         metricScrollPane.setBorder(BorderFactory.createEmptyBorder());
         metricsContainer.setBorder(BorderFactory.createEmptyBorder());
         metricsContainer.setBackground(Gray._43);
+    }
 
-        // Footer
+    private void styleFooter() {
         footer.setBorder(JBUI.Borders.empty(5));
     }
 }

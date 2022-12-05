@@ -22,7 +22,7 @@
     <actions>
         <action
                 id="Kratos.Analysis.EdtitorPopup"
-                icon="AllIcons.General.TodoQuestion"
+                icon="com.bobjamin.kratosplugin.KratosIcons.Logo"
                 class="com.bobjamin.kratosplugin.KratosPlugin"
                 text="Kratos"
                 description="Launch Kratos Analysis">
@@ -30,7 +30,7 @@
         </action>
         <action
                 id="Kratos.Analysis.ProjectView"
-                icon="AllIcons.General.TodoQuestion"
+                icon="com.bobjamin.kratosplugin.KratosIcons.Logo"
                 class="com.bobjamin.kratosplugin.KratosPlugin"
                 text="Kratos"
                 description="Launch Kratos Analysis">
@@ -43,7 +43,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.bobjamin.kratosplugin.services.CodeAnalysisService"/>
-        <toolWindow id="Kratos" secondary="true" icon="AllIcons.General.TodoQuestion" anchor="right" factoryClass="com.bobjamin.kratosplugin.ui.KratosToolWindowFactory"/>
+        <toolWindow id="Kratos" secondary="true" icon="com.bobjamin.kratosplugin.KratosIcons.Logo" anchor="right" factoryClass="com.bobjamin.kratosplugin.ui.KratosToolWindowFactory"/>
     </extensions>
 
 </idea-plugin>

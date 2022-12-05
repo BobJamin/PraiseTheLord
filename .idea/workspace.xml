@@ -5,17 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7c424b98-d3d9-4dde-82ae-be8b7c184077" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/Converter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/KratosConfigurator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/SettingsDialog.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/SettingsEntry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/SettingsLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/KratosIcons.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/LoaderSaver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/LocalLoaderSaver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/ProxySettings.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/Settings.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/SettingsConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/icons/kratos.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/Converter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/DoubleConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/KratosConfigurator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/KratosConfigurator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/SettingsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/SettingsDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/SettingsEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/SettingsEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/SettingsLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/SettingsLine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindow.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindow.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindowFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/ui/KratosToolWindowFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/pluginIcon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/pluginIcon.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/plugin.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,10 +70,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
         <option value="AnnotationType" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -95,19 +101,13 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "E:/PRG/Java/Projects/PraiseTheLord/src/main/resources/META-INF",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+    "last_opened_file_path": "E:/PRG/Java/Projects/PraiseTheLord/src/main/resources/icons",
+    "node.js.selected.package.tslint": "(autodetect)"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\PRG\Java\Projects\PraiseTheLord\src\main\resources\icons" />
       <recent name="E:\PRG\Java\Projects\PraiseTheLord\src\main\resources\META-INF" />
       <recent name="E:\PRG\Java\Projects\PraiseTheLord\src\main\java\com\bobjamin\kratosplugin\ui" />
     </key>
@@ -124,7 +124,8 @@
       <workItem from="1669020043998" duration="20007000" />
       <workItem from="1669629362704" duration="9254000" />
       <workItem from="1670167460791" duration="106000" />
-      <workItem from="1670168005508" duration="14648000" />
+      <workItem from="1670168005508" duration="15268000" />
+      <workItem from="1670227188084" duration="18554000" />
     </task>
     <servers />
   </component>
@@ -155,19 +156,9 @@
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/utils/MetricCalculator.java</url>
-          <line>16</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/KratosConfigurator.java</url>
-          <line>29</line>
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/bobjamin/kratosplugin/settings/SettingsLine.java</url>
-          <line>59</line>
-          <option name="timeStamp" value="44" />
+          <line>55</line>
+          <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
