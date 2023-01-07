@@ -39,9 +39,11 @@ public class KratosToolWindow implements CodeReportListener {
     private final Settings settings;
 
     public KratosToolWindow(Settings settings) {
+        this.settings = settings;
+
         CodeAnalysisService codeAnalysisService = ApplicationManager.getApplication().getService(CodeAnalysisService.class);
         codeAnalysisService.subscribe(this);
-        this.settings = settings;
+        codeAnalysisService.setSettings(settings);
         setup();
         style();
     }
@@ -90,14 +92,14 @@ public class KratosToolWindow implements CodeReportListener {
 
     private void updateWithSingleClass(CodeReport codeReport) {
         filename.setText(codeReport.getClassName());
-        score.setText(String.valueOf(codeReport.getScore()));
+        score.setText(String.valueOf(Math.round(codeReport.getScore() * 100.0) / 100.0));
         score.setVisible(true);
         header.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, ColorUtil.generateScoreColor(codeReport.getScore())));
         metricsWrapper.remove(this.metricsContainer);
         metricsWrapper.add(this.metricsContainer, BorderLayout.NORTH);
         metricsContainer.removeAll();
         for (Metric m : codeReport.getMetrics()) {
-            addMetric(m.getMetricName(), m.getMetricValue());
+            addMetric(m.getMetricName(), m.getMetricValue(), m.isOverTheshold());
         }
     }
 
@@ -118,8 +120,8 @@ public class KratosToolWindow implements CodeReportListener {
         this.footer.setVisible(false);
     }
 
-    private void addMetric(String name, double value) {
-        metricsContainer.add(new KratosToolWindowMetric(name, value).getContent());
+    private void addMetric(String name, double value, boolean isOverTreshold) {
+        metricsContainer.add(new KratosToolWindowMetric(name, value, isOverTreshold).getContent());
     }
 
     private void style() {

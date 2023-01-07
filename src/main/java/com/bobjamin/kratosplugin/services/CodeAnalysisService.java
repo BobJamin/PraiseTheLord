@@ -5,6 +5,7 @@ import com.bobjamin.kratosplugin.models.Class;
 import com.bobjamin.kratosplugin.antlr.common.ExpressionVisitor;
 import com.bobjamin.kratosplugin.models.CodeReport;
 import com.bobjamin.kratosplugin.models.CodeReportListener;
+import com.bobjamin.kratosplugin.settings.Settings;
 import com.bobjamin.kratosplugin.utils.ANTLRVisitorFacade;
 import com.bobjamin.kratosplugin.utils.CodeReportBuilder;
 import com.intellij.lang.Language;
@@ -17,6 +18,11 @@ public class CodeAnalysisService {
 
     private final List<CodeReportListener> listeners = new ArrayList<>();
     private List<CodeReport> codeReports;
+    private Settings settings;
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+    }
 
     public void subscribe(CodeReportListener listener) {
         listeners.add(listener);
@@ -55,7 +61,11 @@ public class CodeAnalysisService {
     }
 
     private CodeReport buildCodeReport(Class c) {
-        return CodeReportBuilder.Create(c).WithWMC().WithTCC().WithATFD().Build();
+        return CodeReportBuilder.create(c, settings)
+                .withWMC()
+                .withTCC()
+                .withATFD()
+                .build();
     }
 
     private void pushError(String message) {

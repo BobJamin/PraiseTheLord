@@ -37,4 +37,10 @@ public abstract class Settings implements Serializable {
     public Serializable getSerializable() {
         return this;
     }
+
+    public abstract double getTccThreshold();
+
+    public abstract double getWmcThreshold();
+
+    public abstract double getAtfdThreshold();
 }

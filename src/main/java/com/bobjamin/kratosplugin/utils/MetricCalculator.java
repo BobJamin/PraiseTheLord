@@ -13,8 +13,23 @@ public class MetricCalculator {
     }
 
     public static double computeTotal(List<Metric> metrics) {
-        // TODO: add weight on each metric for the total
-        return metrics.stream().mapToDouble(Metric::getMetricValue).sum();
+        int tresholdExceedsCount = 0;
+        for (Metric m : metrics){
+            if(m.isOverTheshold())
+                tresholdExceedsCount ++;
+        }
+        return metrics.size() == 0 ? 100 : 100 - tresholdExceedsCount * (100.0 / metrics.size());
+    }
+
+    public static double computeATFD(Class c) {
+        return c.getExternalAccesses().size();
+    }
+
+    private static List<Pair<Method,Method>> generateMethodPairs(List<Method> methods) {
+        return methods.stream()
+                .flatMap(method1 -> methods.stream().filter(m -> m != method1).map(method2 -> new Pair<>(method1,method2)))
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     public static double computeTCC(Class c) {
@@ -34,16 +49,5 @@ public class MetricCalculator {
         }
 
         return (double)matchingPairCount / pairs.size();
-    }
-
-    public static double computeATFD(Class c) {
-        return c.getExternalAccesses().size();
-    }
-
-    private static List<Pair<Method,Method>> generateMethodPairs(List<Method> methods) {
-        return methods.stream()
-                .flatMap(method1 -> methods.stream().filter(m -> m != method1).map(method2 -> new Pair<>(method1,method2)))
-                .distinct()
-                .collect(Collectors.toList());
     }
 }

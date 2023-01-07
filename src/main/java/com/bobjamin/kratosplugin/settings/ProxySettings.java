@@ -37,4 +37,19 @@ public class ProxySettings extends Settings {
     public Serializable getSerializable() {
         return this.configurator;
     }
+
+    @Override
+    public double getTccThreshold() {
+        return this.configurator.getTccThreshold();
+    }
+
+    @Override
+    public double getWmcThreshold() {
+        return this.configurator.getWmcThreshold();
+    }
+
+    @Override
+    public double getAtfdThreshold() {
+        return this.configurator.getAtfdThreshold();
+    }
 }

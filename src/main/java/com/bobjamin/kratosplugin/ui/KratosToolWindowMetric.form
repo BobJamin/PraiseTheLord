@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.bobjamin.kratosplugin.ui.KratosToolWindowMetric">
   <grid id="header" binding="metric" layout-manager="BorderLayout" hgap="10" vgap="-1">
     <constraints>
-      <xy x="0" y="0" width="92" height="23"/>
+      <xy x="0" y="0" width="223" height="51"/>
     </constraints>
     <properties>
       <background color="-12828863"/>
@@ -25,6 +25,13 @@
               <text value="Label"/>
             </properties>
           </component>
+          <hspacer id="43bd0">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="53" height="11"/>
+              </grid>
+            </constraints>
+          </hspacer>
           <component id="81ad4" class="javax.swing.JLabel" binding="metricScore">
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
@@ -33,11 +40,6 @@
               <text value="Label"/>
             </properties>
           </component>
-          <hspacer id="43bd0">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </hspacer>
         </children>
       </grid>
     </children>

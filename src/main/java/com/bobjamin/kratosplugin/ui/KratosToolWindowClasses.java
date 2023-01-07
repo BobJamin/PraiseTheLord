@@ -22,7 +22,7 @@ public class KratosToolWindowClasses {
             DefaultMutableTreeNode file = new DefaultMutableTreeNode(codeReport);
 
             for(Metric metric : codeReport.getMetrics()) {
-                DefaultMutableTreeNode metricNode = new DefaultMutableTreeNode(new KratosToolWindowMetric(metric.getMetricName(), metric.getMetricValue()));
+                DefaultMutableTreeNode metricNode = new DefaultMutableTreeNode(new KratosToolWindowMetric(metric.getMetricName(), metric.getMetricValue(), metric.isOverTheshold()));
                 metricNode.setAllowsChildren(false);
                 file.add(metricNode);
             }
