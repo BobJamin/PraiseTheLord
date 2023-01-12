@@ -19,9 +19,6 @@ public class KratosPlugin extends AnAction {
 
     @Override
     public void update(AnActionEvent e) {
-        // This will only allow the user to launch Kratos on a single file,
-        // TODO: Allow the user to launch Kratos on an arborsecence (using PsiElement exploration)
-        // if the user has selected a single file
         PsiFile file = e.getData(CommonDataKeys.PSI_FILE);
         if(file != null) {
             e.getPresentation().setEnabled(file != null);
